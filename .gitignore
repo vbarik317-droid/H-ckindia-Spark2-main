@@ -1,0 +1,21 @@
+# Python
+venv/
+*/venv/
+__pycache__/
+*.pyc
+
+# env files
+.env
+
+# VS Code
+.vscode/
+
+# Node
+node_modules/
+
+# Build
+dist/
+build/
+
+storm/src/ml/kyoto_minute_full.csv
+*.csv

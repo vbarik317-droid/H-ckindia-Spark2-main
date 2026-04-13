@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: satellite_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - satellite_network
+
+  backend:
+    build: ./backend
+    volumes:
+      - ./backend:/app
+      - ml_models:/app/ml_models
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/satellite_db
+      SIMULATION_MODE: "true"
+    depends_on:
+      - postgres
+    networks:
+      - satellite_network
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      VITE_API_URL: http://localhost:8000/api/v1
+    depends_on:
+      - backend
+    networks:
+      - satellite_network
+
+networks:
+  satellite_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  ml_models:

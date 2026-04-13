@@ -1,0 +1,15 @@
+RewriteEngine On
+
+# Set correct base folder
+RewriteBase /storm/src/Web/
+
+# Allow existing files (css, js, images)
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^ - [L]
+
+# Allow existing directories
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Redirect everything else to index.php
+RewriteRule ^ index.php [L]
